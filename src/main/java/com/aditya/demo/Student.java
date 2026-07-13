@@ -1,5 +1,8 @@
 package com.aditya.demo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Student {
     private int age;
     private String name;
