@@ -6,12 +6,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MyPortfolio {
 
+    @GetMapping("/")
+    public String home() {
+        return """
+                <h1>Aditya Bhardwaz - Portfolio</h1>
+                <ul>
+                    <li><a href="/mySelf">About Me</a></li>
+                    <li><a href="/skills">My Skills</a></li>
+                    <li><a href="/education">My Education</a></li>
+                    <li><a href="/projects">My Projects</a></li>
+                </ul>
+                """;
+    }
+
     @GetMapping("/mySelf")
     public String mySelf() {
         return """
-                <h1>My Portfolio</h1>
-
-                <h2>About Me</h2>
+                <h1>About Me</h1>
 
                 <p>
                     Hi, my name is Aditya Bhardwaz. I am currently pursuing
@@ -34,63 +45,110 @@ public class MyPortfolio {
                     </li>
                 </ul>
 
-                <hr>
+                <a href="/">Go back to Home</a>
+                """;
+    }
 
-                <h2>My Skills</h2>
+    @GetMapping("/skills")
+    public String skills() {
+        return """
+                <h1>My Skills</h1>
 
+                <h2>Programming Languages</h2>
                 <ul>
                     <li>C</li>
                     <li>C++</li>
                     <li>Java</li>
                     <li>JavaScript</li>
                     <li>PHP</li>
-                    <li>HTML and CSS</li>
+                </ul>
+
+                <h2>Frontend Technologies</h2>
+                <ul>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>Bootstrap</li>
                     <li>React.js</li>
+                </ul>
+
+                <h2>Backend Technologies</h2>
+                <ul>
                     <li>Spring Boot</li>
-                    <li>Node.js and Express.js</li>
-                    <li>MySQL and MongoDB</li>
-                    <li>Git and GitHub</li>
+                    <li>Node.js</li>
+                    <li>Express.js</li>
+                    <li>Laravel</li>
+                </ul>
+
+                <h2>Database and Tools</h2>
+                <ul>
+                    <li>MySQL</li>
+                    <li>MongoDB</li>
+                    <li>Git</li>
+                    <li>GitHub</li>
                     <li>Postman</li>
                 </ul>
 
-                <hr>
+                <a href="/">Go back to Home</a>
+                """;
+    }
 
-                <h2>My Education</h2>
+    @GetMapping("/education")
+    public String education() {
+        return """
+                <h1>My Education</h1>
 
+                <h2>Bachelor of Technology</h2>
                 <ul>
-                    <li>Course: Bachelor of Technology</li>
+                    <li>Course: B.Tech</li>
                     <li>Branch: Computer Science and Engineering</li>
                     <li>University: Lovely Professional University</li>
                     <li>Status: Currently Pursuing</li>
                 </ul>
 
-                <hr>
+                <h2>Important Subjects</h2>
+                <ul>
+                    <li>Data Structures and Algorithms</li>
+                    <li>Object-Oriented Programming</li>
+                    <li>Database Management Systems</li>
+                    <li>Operating Systems</li>
+                    <li>Computer Networks</li>
+                    <li>Artificial Intelligence</li>
+                    <li>Web Development</li>
+                </ul>
 
-                <h2>My Projects</h2>
+                <a href="/">Go back to Home</a>
+                """;
+    }
 
-                <h3>1. AI Investment Research Agent</h3>
+    @GetMapping("/projects")
+    public String projects() {
+        return """
+                <h1>My Projects</h1>
 
+                <h2>1. AI Investment Research Agent</h2>
                 <p>
                     An AI-powered application that analyzes companies and provides
-                    investment recommendations, confidence scores and risk information.
+                    investment recommendations, confidence scores, risk information,
+                    advantages and disadvantages.
                 </p>
-
                 <p>
-                    <b>Technologies:</b> React.js, Node.js, Express.js,
-                    MongoDB, Firebase and Gemini AI
+                    <b>Technologies:</b>
+                    React.js, Node.js, Express.js, MongoDB, Firebase and Gemini AI
                 </p>
 
-                <h3>2. EcoTrade</h3>
+                <hr>
 
+                <h2>2. EcoTrade</h2>
                 <p>
                     A second-hand marketplace where users can securely buy and sell
-                    products, manage product listings and place orders.
+                    products, manage listings and place orders.
+                </p>
+                <p>
+                    <b>Technologies:</b>
+                    React.js, Node.js, Express.js, MongoDB and JWT
                 </p>
 
-                <p>
-                    <b>Technologies:</b> React.js, Node.js, Express.js,
-                    MongoDB and JWT
-                </p>
+                <a href="/">Go back to Home</a>
                 """;
     }
 }
