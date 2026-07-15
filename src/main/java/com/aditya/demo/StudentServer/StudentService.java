@@ -1,30 +1,44 @@
 package com.aditya.demo.StudentServer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
-    StudentRepository studentRepository;
 
-    @Autowired
+    private final StudentRepository studentRepository;
+
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
     public Student studentValidate(Student student) {
 
-        int id = student.getId();
-        String name = student.getName();
-        int age = student.getAge();
-        String department = student.getDepartment();
+        if (student == null ||
+                student.getName() == null ||
+                student.getName().isBlank() ||
+                student.getAge() < 0 ||
+                student.getDepartment() == null ||
+                student.getDepartment().isBlank()) {
 
-        if(id < 0 || name == null || age < 0 || department == null) {
             return null;
         }
 
-        studentRepository.save(student);
-        return student;
+        return studentRepository.save(student);
+    }
 
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    public Student getStudentById(Long id) {
+        Optional<Student> student = studentRepository.findById(id);
+        return student.orElse(null);
+    }
+
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
     }
 }
