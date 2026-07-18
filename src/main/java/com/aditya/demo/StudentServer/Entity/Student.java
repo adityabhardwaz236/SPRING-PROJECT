@@ -9,7 +9,7 @@ public class Student {
     int id;
     String name;
     int age;
-    String department;
+    String dept;
 
     public int getId() {
         return id;
@@ -35,11 +35,11 @@ public class Student {
         this.age = age;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getDept() {
+        return dept;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 }

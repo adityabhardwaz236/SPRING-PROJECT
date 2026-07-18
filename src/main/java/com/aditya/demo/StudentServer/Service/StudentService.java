@@ -1,36 +1,58 @@
 package com.aditya.demo.StudentServer.Service;
 
-import com.aditya.demo.StudentServer.Entity.Student;
 import com.aditya.demo.StudentServer.Repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.aditya.demo.StudentServer.Entity.Student;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentService {
+
     StudentRepository studentRepository;
 
-    @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository){
         this.studentRepository = studentRepository;
     }
 
-    public Student studentValidate(Student student) {
-
+    public Student studentValidate(Student student){
         int id = student.getId();
         String name = student.getName();
         int age = student.getAge();
-        String department = student.getDepartment();
+        String dept = student.getDept();
 
-        if(id < 0 || name == null || age < 0 || department == null) {
+        if(id<0 || name==null || age<0 || dept==null) {
             return null;
         }
 
         studentRepository.save(student);
         return student;
-
     }
 
-    public Student getStudentById(int id) {
+    public Student getStudentById(int id){
         return studentRepository.findById(id).orElse(null);
+    }
+
+    public Student updateStudentById(int id, Student student){
+        Student existing = studentRepository.findById(id).orElse(null);
+
+        if(existing == null){
+            return null;
+        }
+
+        existing.setName(student.getName());
+        existing.setAge(student.getAge());
+        existing.setDept(student.getDept());
+
+        return studentRepository.save(existing);
+    }
+
+    public boolean deleteStudentById(int id){
+        Student existing = studentRepository.findById(id).orElse(null);
+
+        if(existing == null){
+            return false;
+        }
+
+        studentRepository.delete(existing);
+        return true;
     }
 }
