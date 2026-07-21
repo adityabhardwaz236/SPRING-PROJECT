@@ -1,58 +1,79 @@
 package com.aditya.demo.StudentServer.Service;
 
-import com.aditya.demo.StudentServer.Repository.StudentRepository;
+import com.aditya.demo.StudentServer.DTO.CreateStudentRequestDTO;
+import com.aditya.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.aditya.demo.StudentServer.Entity.Student;
+import com.aditya.demo.StudentServer.Repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class StudentService {
-
     StudentRepository studentRepository;
 
-    public StudentService(StudentRepository studentRepository){
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    public Student studentValidate(Student student){
-        int id = student.getId();
-        String name = student.getName();
-        int age = student.getAge();
-        String dept = student.getDept();
+    public CreateStudentResponseDTO studentValidate(CreateStudentRequestDTO createStudentRequestDTO) {
 
-        if(id<0 || name==null || age<0 || dept==null) {
+        Student student = mapToStudent(createStudentRequestDTO);
+        studentRepository.save(student);
+        return mapToResponseDTO(student);
+    }
+
+    public Student getStudentById(int id) throws Exception {
+        return studentRepository.findById(id).orElseThrow(()->new Exception());
+    }
+
+    public Student studentUpdate(int id, Student student) {
+
+        Student result = studentRepository.findById(id).orElse(null);
+
+        if (result == null) {
             return null;
         }
 
-        studentRepository.save(student);
+        result.setName(student.getName());
+        result.setAge(student.getAge());
+        result.setDepartment(student.getDepartment());
+        result.setUpdatedAt(LocalDateTime.now());
+
+        return studentRepository.save(result);
+    }
+
+    public Student deleteStudent(int id) {
+        Student result = studentRepository.findById(id).orElse(null);
+        if(result == null) {
+            return null;
+        }
+        studentRepository.delete(result);
+        return result;
+    }
+
+    private Student mapToStudent(CreateStudentRequestDTO createStudentRequestDTO) {
+        Student student = new Student();
+
+        student.setName(createStudentRequestDTO.getName());
+        student.setAge(createStudentRequestDTO.getAge());
+        student.setDepartment(createStudentRequestDTO.getDepartment());
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
+
         return student;
     }
 
-    public Student getStudentById(int id){
-        return studentRepository.findById(id).orElse(null);
-    }
+    private CreateStudentResponseDTO mapToResponseDTO(Student student) {
+        CreateStudentResponseDTO createStudentResponseDTO = new CreateStudentResponseDTO();
+        createStudentResponseDTO.setId(student.getId());
+        createStudentResponseDTO.setName(student.getName());
+        createStudentResponseDTO.setAge(student.getAge());
+        createStudentResponseDTO.setDepartment(student.getDepartment());
 
-    public Student updateStudentById(int id, Student student){
-        Student existing = studentRepository.findById(id).orElse(null);
+        return createStudentResponseDTO;
 
-        if(existing == null){
-            return null;
-        }
-
-        existing.setName(student.getName());
-        existing.setAge(student.getAge());
-        existing.setDept(student.getDept());
-
-        return studentRepository.save(existing);
-    }
-
-    public boolean deleteStudentById(int id){
-        Student existing = studentRepository.findById(id).orElse(null);
-
-        if(existing == null){
-            return false;
-        }
-
-        studentRepository.delete(existing);
-        return true;
     }
 }
