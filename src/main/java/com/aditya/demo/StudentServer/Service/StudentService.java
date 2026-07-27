@@ -2,8 +2,10 @@ package com.aditya.demo.StudentServer.Service;
 
 import com.aditya.demo.StudentServer.DTO.CreateStudentRequestDTO;
 import com.aditya.demo.StudentServer.DTO.CreateStudentResponseDTO;
+import com.aditya.demo.StudentServer.DTO.UpdateStudentRequestDTO;
 import com.aditya.demo.StudentServer.Entity.Student;
 import com.aditya.demo.StudentServer.Repository.StudentRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class StudentService {
         return studentRepository.findById(id).orElseThrow(()->new Exception());
     }
 
-    public Student studentUpdate(int id, Student student) {
+    public Student studentUpdate(int id, @Valid UpdateStudentRequestDTO student) {
 
         Student result = studentRepository.findById(id).orElse(null);
 
@@ -39,7 +41,6 @@ public class StudentService {
 
         result.setName(student.getName());
         result.setAge(student.getAge());
-        result.setDepartment(student.getDepartment());
         result.setUpdatedAt(LocalDateTime.now());
 
         return studentRepository.save(result);

@@ -1,6 +1,6 @@
-package com.mohit.demo;
+package com.aditya.demo;
 
-import com.mohit.demo.DependencyInjection.OrderService;
+import com.aditya.demo.DependencyInjection.OrderService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
