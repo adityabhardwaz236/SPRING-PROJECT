@@ -1,6 +1,6 @@
 package com.aditya.demo.StudentServer.Config;
 
-
+import com.aditya.demo.StudentServer.Service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -53,47 +53,47 @@ import org.springframework.security.web.SecurityFilterChain;
 
 // basic auth ---------------------------------------------------------------------------------
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/hello").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
-
-        return http.build();
-    }
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-}
-
-// JWT-------------------------------------------------------------------------------
-
 //@Configuration
+//@EnableWebSecurity
 //public class SecurityConfig {
+//
 //    @Bean
-//    public SecurityFilterChain security(HttpSecurity http) throws Exception {
-//        http.csrf(csrf -> csrf.disable())
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable())
 //                .authorizeHttpRequests(auth -> auth
-//                        .anyRequest()
-//                        .permitAll()
+//                        .requestMatchers("/hello").permitAll()
+//                        .anyRequest().authenticated()
 //                )
+//                .httpBasic(Customizer.withDefaults())
 //                .formLogin(Customizer.withDefaults());
+//
 //        return http.build();
 //    }
-//
+
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
 //}
+
+// JWT-------------------------------------------------------------------------------
+
+@Configuration
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain security(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest()
+                        .permitAll()
+                )
+                .formLogin(Customizer.withDefaults());
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
